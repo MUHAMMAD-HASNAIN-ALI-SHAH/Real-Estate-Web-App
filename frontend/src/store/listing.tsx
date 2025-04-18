@@ -30,6 +30,7 @@ interface ListingStore {
   getMyListings: () => void;
   deleteListing: (id: string) => void;
   getSingleListing: (id: string) => Promise<Listing>;
+  
 }
 
 // Zustand store creation
@@ -95,6 +96,7 @@ const useListingStore = create<ListingStore>((set, get) => ({
       set({ submitionState: false });
     }
   },
+
 }));
 
 export default useListingStore;

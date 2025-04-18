@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Profile from "./pages/Profile";
 import EditListing from "./components/EditListing";
 import Listing from "./components/Listing";
+import GetMyReservations from "./pages/GetMyReservations";
 
 function App() {
   const { verify, isAuthenticated } = useAuthStore();
@@ -39,6 +40,10 @@ function App() {
         <Route
           path="/dashboard/edit/:id"
           element={isAuthenticated ? <EditListing /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/my-reservations"
+          element={isAuthenticated ? <GetMyReservations /> : <Navigate to="/" />}
         />
         <Route
           path="/listing/:id"

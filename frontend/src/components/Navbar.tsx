@@ -61,6 +61,9 @@ export default function Navbar() {
                     <a onClick={()=>{navigate("/profile")}}>My Profile</a>
                   </li>
                   <li>
+                    <a onClick={()=>{navigate("/my-reservations")}}>My Reservations</a>
+                  </li>
+                  <li>
                     <a onClick={()=>{navigate("/dashboard")}}>Airbnb your Dasboard</a>
                   </li>
                   <li>

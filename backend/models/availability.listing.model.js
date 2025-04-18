@@ -21,7 +21,7 @@ const availabilitySchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'reserved'],
+    enum: ['pending', 'reserved', 'under review'],
     default: 'pending',
   }
 }, { timestamps: true });
