@@ -16,6 +16,11 @@ const EditListing = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
+
+  const [otherImages, setOtherImages] = useState<(File | null)[]>([null, null, null, null]);
+  const [otherImagesBase64, setOtherImagesBase64] = useState<(string | null)[]>([null, null, null, null]);
+  const [otherImagesError, setOtherImagesError] = useState<string | null>(null);
+
   const { editListing, submitionState, getSingleListing } = useListingStore();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -51,6 +56,17 @@ const EditListing = () => {
     },
   });
 
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+  
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject("Error converting file to base64");
+  
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleImageChange = (file: File | null) => {
     setImage(file);
     setImageError(null);
@@ -67,6 +83,22 @@ const EditListing = () => {
     reader.readAsDataURL(file);
   };
 
+  const handleOtherImageChange = async (file:File | null, index: number) => {
+    const updatedFiles = [...otherImages];
+    const updatedBase64 = [...otherImagesBase64];
+
+    updatedFiles[index] = file;
+    if(file) {
+      const getBase64 = convertToBase64(file);
+      if (getBase64) {
+        const base64 = await getBase64;
+        updatedBase64[index] = base64;
+      }
+    }
+    setOtherImages(updatedFiles);
+    setOtherImagesBase64(updatedBase64);
+  }
+
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
   }, []);
@@ -74,6 +106,7 @@ const EditListing = () => {
   useEffect(() => {
     const getListingData = async () => {
       const listingData = await getSingleListing(id as string);
+      console.log(listingData);
       if (listingData) {
         form.setValues({
           title: listingData.title,
@@ -85,26 +118,44 @@ const EditListing = () => {
           bedrooms: listingData.bedrooms,
           beds: listingData.beds,
           bathrooms: listingData.bathrooms,
-          images: listingData.images,
         });
         setImageBase64(listingData.image);
+        setOtherImagesBase64([
+          listingData.image1,
+          listingData.image2,
+          listingData.image3,
+          listingData.image4,
+        ]);
       }
     };
     getListingData();
   }, [getSingleListing]);
 
   const handleSubmit = async (values: typeof form.values) => {
+    let hasError = false;
     if (!image && !imageBase64) {
       setImageError("Main image is required");
-      return;
+      hasError = true;
     }
 
     setImageError(null);
+
+    const validOtherImages = otherImagesBase64.filter((img)=>img!== null);
+    if(validOtherImages.length < 4) {
+      setOtherImagesError("Add all 4 images");
+      hasError = true;
+    }
+
+    if (hasError) return;
 
     const formData = {
       _id: id,
       ...values,
       image: imageBase64,
+      image1: validOtherImages[0],
+      image2: validOtherImages[1],
+      image3: validOtherImages[2],
+      image4: validOtherImages[3],
     };
 
     await editListing(formData);
@@ -117,7 +168,7 @@ const EditListing = () => {
         className="w-full md:w-[700px]"
         onSubmit={form.onSubmit(handleSubmit)}
       >
-        <h1 className="font-bold text-3xl py-4">Create a Listing</h1>
+        <h1 className="font-bold text-3xl py-4">Edit your Listing</h1>
 
         <TextInput
           label="Title"
@@ -184,8 +235,28 @@ const EditListing = () => {
         )}
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
-
+          {otherImages.map((file, index) => (
+            <div key={index}>
+              <FileInput
+                label={`Image ${index + 1}`}
+                placeholder={`Upload image ${index + 1}`}
+                value={file}
+                onChange={(f) => handleOtherImageChange(f, index)}
+              />
+              {otherImagesBase64[index] && (
+                <img
+                  src={otherImagesBase64[index] as string}
+                  alt={`Preview ${index + 1}`}
+                  className="rounded-md border max-h-28 mt-2 mx-auto"
+                />
+              )}
+            </div>
+          ))}
         </div>
+
+        {otherImagesError && (
+          <p className="text-red-500 text-sm mt-1 col-span-full">{otherImagesError}</p>
+        )}
 
         <div className="grid grid-cols-3 gap-2 mt-4">
           <NumberInput

@@ -50,26 +50,6 @@ const AddListing = () => {
     },
   });
 
-  // const convertToBase64 = (file: File): Promise<string> => {
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  
-  //     reader.onloadend = () => {
-  //       if (typeof reader.result === "string") {
-  //         resolve(reader.result);
-  //       } else {
-  //         reject("Failed to convert file to base64.");
-  //       }
-  //     };
-  
-  //     reader.onerror = () => {
-  //       reject("Error reading file.");
-  //     };
-  
-  //     reader.readAsDataURL(file);
-  //   });
-  // };
-
   const convertToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -80,15 +60,6 @@ const AddListing = () => {
       reader.readAsDataURL(file);
     });
   };
-  
-
-  // const convertToBase64 = (file: File, callback: (base64: string) => void) => {
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     callback(reader.result as string);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
 
   const handleMainImageChange = async (file: File | null) => {
     setMainImage(file);
@@ -126,7 +97,6 @@ const AddListing = () => {
 
   };
 
-
   const handleSubmit = async (values: typeof form.values) => {
     let hasError = false;
 
@@ -146,7 +116,10 @@ const AddListing = () => {
     const formData = {
       ...values,
       image: mainImageBase64,
-      images: validOtherImages.map((url) => ({ url })),
+      image1: validOtherImages[0],
+      image2: validOtherImages[1],
+      image3: validOtherImages[2],
+      image4: validOtherImages[3],
     };
 
     await addListing(formData);

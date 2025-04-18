@@ -17,33 +17,36 @@ const addListing = async (req, res) => {
       beds,
       bathrooms,
       image,
-      images,
+      image1,
+      image2,
+      image3,
+      image4,
       available,
     } = req.body;
 
     if (!image) return res.status(400).json({ msg: "Image is required" });
 
-    if (!images || images.length < 4) {
-      return res.status(400).json({ msg: "At least 4 images are required" });
+    if (!image1 || !image2 || !image3 || !image4) {
+      return res.status(400).json({ msg: "Plz send all the images." });
     }
 
     const upload = await cloudinary.uploader.upload(image, {
       folder: "listing_images",
     });
 
-    const upload1 = await cloudinary.uploader.upload(images[0].url, {
+    const upload1 = await cloudinary.uploader.upload(image1, {
       folder: "listing_images",
     });
 
-    const upload2 = await cloudinary.uploader.upload(images[1].url, {
+    const upload2 = await cloudinary.uploader.upload(image2, {
       folder: "listing_images",
     });
 
-    const upload3 = await cloudinary.uploader.upload(images[2].url, {
+    const upload3 = await cloudinary.uploader.upload(image3, {
       folder: "listing_images",
     });
 
-    const upload4 = await cloudinary.uploader.upload(images[3].url, {
+    const upload4 = await cloudinary.uploader.upload(image4, {
       folder: "listing_images",
     });
 
@@ -91,7 +94,10 @@ const editListing = async (req, res) => {
       beds,
       bathrooms,
       image,
-      images,
+      image1,
+      image2,
+      image3,
+      image4,
       available,
     } = req.body;
 
@@ -102,8 +108,8 @@ const editListing = async (req, res) => {
       return res.status(403).json({ msg: "Unauthorized" });
     }
 
-    if (images && images.length > 0) {
-      return res.status(400).json({ msg: "At least 4 images are required" });
+    if (!image1 || !image2 || !image3 || !image4) {
+      return res.status(400).json({ msg: "Plz send all the images." });
     }
 
     if (image && image !== listing.image) {
@@ -117,41 +123,41 @@ const editListing = async (req, res) => {
       listing.image = newUpload.secure_url;
     }
 
-    if (images[0].url !== listing.image1) {
+    if (image1 !== listing.image1) {
       const publicId = listing.image1.split("/").pop().split(".")[0];
       await cloudinary.uploader.destroy(`listing_images/${publicId}`);
 
-      const newUpload1 = await cloudinary.uploader.upload(images[0].url, {
+      const newUpload1 = await cloudinary.uploader.upload(image1, {
         folder: "listing_images",
       });
 
       listing.image1 = newUpload1.secure_url;
     }
-    if (images[1].url !== listing.image2) {
+    if (image2 !== listing.image2) {
       const publicId = listing.image2.split("/").pop().split(".")[0];
       await cloudinary.uploader.destroy(`listing_images/${publicId}`);
 
-      const newUpload2 = await cloudinary.uploader.upload(images[1].url, {
+      const newUpload2 = await cloudinary.uploader.upload(image2, {
         folder: "listing_images",
       });
 
       listing.image2 = newUpload2.secure_url;
     }
-    if (images[2].url !== listing.image3) {
+    if (image3 !== listing.image3) {
       const publicId = listing.image3.split("/").pop().split(".")[0];
       await cloudinary.uploader.destroy(`listing_images/${publicId}`);
 
-      const newUpload3 = await cloudinary.uploader.upload(images[2].url, {
+      const newUpload3 = await cloudinary.uploader.upload(image3, {
         folder: "listing_images",
       });
 
       listing.image3 = newUpload3.secure_url;
     }
-    if (images[3].url !== listing.image4) {
+    if (image4 !== listing.image4) {
       const publicId = listing.image4.split("/").pop().split(".")[0];
       await cloudinary.uploader.destroy(`listing_images/${publicId}`);
 
-      const newUpload4 = await cloudinary.uploader.upload(images[3].url, {
+      const newUpload4 = await cloudinary.uploader.upload(image4, {
         folder: "listing_images",
       });
 

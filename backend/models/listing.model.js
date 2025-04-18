@@ -13,7 +13,7 @@ const listingSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["Beach", "Cabin", "Apartment", "Luxury"], // optional validation
+      enum: ["Beach", "Cabin", "Apartment", "Luxury"],
     },
     price: {
       type: Number,
@@ -44,23 +44,23 @@ const listingSchema = new mongoose.Schema(
       min: 1,
     },
     image: {
-      type: String, // base64 encoded image
+      type: String,
       required: true,
     },
     image1: {
-      type: String, // base64 encoded image
+      type: String,
       required: true,
     },
     image2: {
-      type: String, // base64 encoded image
+      type: String,
       required: true,
     },
     image3: {
-      type: String, // base64 encoded image
+      type: String,
       required: true,
     },
     image4: {
-      type: String, // base64 encoded image
+      type: String,
       required: true,
     },
     available: {
