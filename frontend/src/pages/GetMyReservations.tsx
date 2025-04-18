@@ -38,7 +38,7 @@ function GetMyReservations() {
   };
 
   return (
-    <div className="px-5 md:px-10">
+    <div className="px-5 md:px-10 h-[70vh]">
       <div className="mt-6">
         <Table>
           <Table.Thead>

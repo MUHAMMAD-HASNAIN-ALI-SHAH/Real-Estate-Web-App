@@ -7,6 +7,12 @@ const checkAvailability = async (req, res) => {
 
     const listingId = _id;
 
+    const currentDate = new Date();
+
+    if (new Date(startDate) < currentDate || new Date(endDate) < currentDate) {
+      return res.status(400).json({ msg: "Dates must be in the future." });
+    }
+
     const start = new Date(startDate);
     const end = new Date(endDate);
 

@@ -63,9 +63,14 @@ export default function Navbar() {
                   <li>
                     <a onClick={()=>{navigate("/my-reservations")}}>My Reservations</a>
                   </li>
+                  <hr />
                   <li>
                     <a onClick={()=>{navigate("/dashboard")}}>Airbnb your Dasboard</a>
                   </li>
+                  <li>
+                    <a onClick={()=>{navigate("/my-orders")}}>My Orders</a>
+                  </li>
+                  <hr />
                   <li>
                     <a onClick={()=>{logout()}}>Logout</a>
                   </li>
