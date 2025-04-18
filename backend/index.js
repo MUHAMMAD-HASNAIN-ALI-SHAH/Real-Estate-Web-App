@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRoute = require("./routers/user.route");
 const listingRoute = require("./routers/listing.route");
+const reserveListingRoute = require("./routers/reserve.listing.route");
 const cookieParser = require("cookie-parser");
 const app = express();
 const bodyParser = require("body-parser");
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/v2/listing", listingRoute);
+app.use("/api/v3/reserve", reserveListingRoute);
 app.use("/api/v1/auth", userRoute);
 
 PORT = process.env.port;
