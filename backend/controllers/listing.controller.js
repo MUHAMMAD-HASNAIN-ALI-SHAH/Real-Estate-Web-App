@@ -21,7 +21,6 @@ const addListing = async (req, res) => {
       image2,
       image3,
       image4,
-      available,
     } = req.body;
 
     if (!image) return res.status(400).json({ msg: "Image is required" });
@@ -65,7 +64,6 @@ const addListing = async (req, res) => {
       image2: upload2.secure_url,
       image3: upload3.secure_url,
       image4: upload4.secure_url,
-      available,
       userId: user._id,
     });
 
@@ -98,7 +96,6 @@ const editListing = async (req, res) => {
       image2,
       image3,
       image4,
-      available,
     } = req.body;
 
     const listing = await Listing.findById(_id);
@@ -173,7 +170,6 @@ const editListing = async (req, res) => {
     listing.bedrooms = bedrooms;
     listing.beds = beds;
     listing.bathrooms = bathrooms;
-    listing.available = available;
     listing.userId = user._id;
     listing.updatedAt = Date.now();
 

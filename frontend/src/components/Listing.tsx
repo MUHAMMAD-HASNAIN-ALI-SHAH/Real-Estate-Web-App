@@ -13,7 +13,7 @@ const Listing = () => {
   const [daysDifference, setDaysDifference] = useState<number | null>(null);
   const { id } = useParams();
 
-  const { checkAvailability, available } = useReserveListingStore();
+  const { checkAvailability, available, reserve } = useReserveListingStore();
 
   const clearAvailable = () => {
     useReserveListingStore.setState({ available: false });
@@ -56,6 +56,17 @@ const Listing = () => {
       setDaysDifference(diff);
     }
   }, [available, startDate, endDate]);
+
+  const reserveListing = async () => {
+    if (startDate && endDate) {
+      const dates = {
+        _id: listing._id,
+        startDate: startDate,
+        endDate: endDate,
+      };
+      reserve(dates);
+    }
+  };
 
   return (
     <div className="px-10 flex flex-col items-center justify-center mt-5">
@@ -213,7 +224,9 @@ const Listing = () => {
                   <button
                     disabled={available}
                     onClick={handleAvailability}
-                    className={`btn btn-primary bg-red-700 border ${available ? "border-white": "border-red-700" } border-red-700 mt-5 w-full`}
+                    className={`btn btn-primary bg-red-700 border ${
+                      available ? "border-white" : "border-red-700"
+                    } border-red-700 mt-5 w-full`}
                   >
                     Check Avability
                   </button>
@@ -235,7 +248,10 @@ const Listing = () => {
                           </h2>
                           <h2>${listing.price * daysDifference!}</h2>
                         </div>
-                        <button className="btn btn-primary bg-red-700 border border-red-700 mt-5 w-full">
+                        <button
+                          onClick={reserveListing}
+                          className="btn btn-primary bg-red-700 border border-red-700 mt-5 w-full"
+                        >
                           Reserve
                         </button>
                       </>

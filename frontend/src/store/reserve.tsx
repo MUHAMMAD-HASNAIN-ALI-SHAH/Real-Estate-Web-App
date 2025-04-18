@@ -11,6 +11,7 @@ interface DatesFormData {
 interface ListingStore {
   available: boolean;
   checkAvailability: (dates: DatesFormData) => void;
+  reserve: (dates: DatesFormData) => void;
 }
 
 const useReserveListingStore = create<ListingStore>((set) => ({
@@ -19,6 +20,19 @@ const useReserveListingStore = create<ListingStore>((set) => ({
     try {
       const response = await axiosInstance.post(
         "/v3/reserve/check-availability",
+        dates
+      );
+      toast.success(response.data.msg, { duration: 3000 });
+        set({ available: true });
+    } catch (error:any) {
+      toast.error(error?.response.data.msg, { duration: 3000 });
+
+    }
+  },
+  reserve: async (dates) => {
+    try {
+      const response = await axiosInstance.post(
+        "/v3/reserve/reserve",
         dates
       );
       toast.success(response.data.msg, { duration: 3000 });

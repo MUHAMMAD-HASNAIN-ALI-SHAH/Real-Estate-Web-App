@@ -63,10 +63,6 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    available: {
-      type: Boolean,
-      default: false,
-    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

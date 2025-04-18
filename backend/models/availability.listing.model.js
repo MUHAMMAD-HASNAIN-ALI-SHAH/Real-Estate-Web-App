@@ -18,6 +18,11 @@ const availabilitySchema = new mongoose.Schema({
   endDate: {
     type: Date,
     required: true,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'reserved'],
+    default: 'pending',
   }
 }, { timestamps: true });
 
