@@ -9,6 +9,8 @@ const {
   addRating,
   getSingleListing,
   getAllListings,
+  getNewOrder,
+  acceptRejectOrder,
 } = require("../controllers/listing.controller");
 
 const router = express.Router();
@@ -21,5 +23,7 @@ router.route("/:id").get(getSingleListing);
 router.route("/category/:category").get(getListingOnCategory);
 router.route("/rating/:listingId").post(protectedRoute, addRating);
 router.route("/get/getAllListings").get(getAllListings);
+router.route("/get/new-orders").get(protectedRoute, getNewOrder);
+router.route("/get/order-status/:orderId").post(protectedRoute, acceptRejectOrder);
 
 module.exports = router;

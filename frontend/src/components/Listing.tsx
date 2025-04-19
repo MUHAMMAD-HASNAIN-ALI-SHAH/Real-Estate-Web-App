@@ -243,9 +243,8 @@ const Listing = () => {
                           <h2>${listing.price * daysDifference!}</h2>
                         </div>
                         <div className="flex justify-between items-center mt-9">
-                          <h2>
-                            <h2>Total ammount</h2>
-                          </h2>
+                          <h2>Total ammount</h2>
+
                           <h2>${listing.price * daysDifference!}</h2>
                         </div>
                         <button

@@ -30,6 +30,8 @@ interface ListingStore {
   getMyListings: () => void;
   deleteListing: (id: string) => void;
   getSingleListing: (id: string) => Promise<Listing>;
+  getNewOrders: () => Promise<any[]>;
+  updateOrderStatus: (status:string,orderId:string) => void;
   
 }
 
@@ -94,6 +96,32 @@ const useListingStore = create<ListingStore>((set, get) => ({
       console.error(error);
     } finally {
       set({ submitionState: false });
+    }
+  },
+  getNewOrders: async () => {
+    try {
+      const response = await axiosInstance.get("/v2/listing/get/new-orders");
+      console.log(response);
+      return response.data.orders || [];
+    } catch (error: any) {
+      toast.error("Failed to get new orders", { duration: 3000 });
+      console.error(error);
+      return [];
+    }
+  },
+  updateOrderStatus: async (status,orderId) => {
+    try {
+      const data = {
+        status
+      }
+      const response = await axiosInstance.post(`/v2/listing/get/order-status/${orderId}`,data);
+      console.log(response);
+      toast.success(response.data.msg, { duration: 3000 });
+      
+    } catch (error: any) {
+      toast.error(error.response.data.msg, { duration: 3000 });
+      console.error(error);
+      return [];
     }
   },
 

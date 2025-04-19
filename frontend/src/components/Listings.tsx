@@ -30,8 +30,8 @@ const Listings = () => {
                 : listing.title.trim()}
             </h1>
             <p className="px-2">
-              {listing.description.trim().length > 80
-                ? `${listing.description.trim().slice(0, 80)}...`
+              {listing.description.trim().length > 70
+                ? `${listing.description.trim().slice(0, 70)}...`
                 : listing.description.trim()}
             </p>
           </div>

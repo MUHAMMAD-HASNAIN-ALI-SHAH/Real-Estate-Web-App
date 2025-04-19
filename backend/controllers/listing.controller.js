@@ -1,6 +1,7 @@
 const Rating = require("../models/ratings.model");
 const cloudinary = require("../config/cloudinary");
 const Listing = require("../models/listing.model");
+const Availability = require("../models/availability.listing.model");
 
 // ADD LISTING
 const addListing = async (req, res) => {
@@ -296,6 +297,82 @@ const addRating = async (req, res) => {
   }
 };
 
+// Accept Reject Order
+const acceptRejectOrder = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    console.log(status);
+
+    const order = await Availability.findById(orderId);
+    if (!order) return res.status(404).json({ msg: "Order not found" });
+
+    if (!order.userId.equals(user._id)) {
+      return res.status(403).json({ msg: "Unauthorized" });
+    }
+
+    if (status !== "reserved" && status !== "rejected") {
+      return res.status(400).json({ msg: "Invalid status" });
+    }
+
+    order.status = status;
+    await order.save();
+
+    res.status(201).json({ msg: "Order status updated successfully" });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+// Get New Orders
+const getNewOrder = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const allPending = await Availability.find({ status: "pending" }).populate(
+      "listingId"
+    );
+
+    if (!allPending) return res.status(404).json({ msg: "No orders found" });
+
+    const filtered = allPending.filter(
+      (item) => item.listingId.userId.toString() === user._id.toString()
+    );
+
+    if (!filtered) return res.status(404).json({ msg: "No orders found" });
+
+    res.status(201).json({ orders: filtered });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+// Get New Orders
+const getCompletedOrders = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const allPending = await Availability.find({ status: "pending" }).populate(
+      "listingId"
+    );
+
+    if (!allPending) return res.status(404).json({ msg: "No orders found" });
+
+    const filtered = allPending.filter(
+      (item) => item.listingId.userId.toString() === user._id.toString()
+    );
+
+    if (!filtered) return res.status(404).json({ msg: "No orders found" });
+
+    res.status(201).json({ orders: filtered });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
 module.exports = {
   addListing,
   editListing,
@@ -305,4 +382,6 @@ module.exports = {
   addRating,
   getSingleListing,
   getAllListings,
+  acceptRejectOrder,
+  getNewOrder,
 };

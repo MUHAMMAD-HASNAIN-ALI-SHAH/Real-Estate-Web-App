@@ -2,14 +2,15 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import AddListing from "./components/AddListing";
+import AddListing from "./pages/AddListing";
 import Dashboard from "./pages/Dashboard";
 import useAuthStore from "./store/auth";
 import { useEffect } from "react";
 import Profile from "./pages/Profile";
-import EditListing from "./components/EditListing";
+import EditListing from "./pages/EditListing";
 import Listing from "./components/Listing";
 import GetMyReservations from "./pages/GetMyReservations";
+import MyOrders from "./pages/MyOrders";
 
 function App() {
   const { verify, isAuthenticated } = useAuthStore();
@@ -44,6 +45,10 @@ function App() {
         <Route
           path="/my-reservations"
           element={isAuthenticated ? <GetMyReservations /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/my-orders"
+          element={isAuthenticated ? <MyOrders /> : <Navigate to="/" />}
         />
         <Route
           path="/listing/:id"
