@@ -19,6 +19,7 @@ interface Listing {
   image2: string | null;
   image3: string | null;
   image4: string | null;
+  rattings: { username: string; rating: number; comment: string }[];
 }
 
 // Define the Zustand store interface
@@ -31,8 +32,12 @@ interface ListingStore {
   deleteListing: (id: string) => void;
   getSingleListing: (id: string) => Promise<Listing>;
   getNewOrders: () => Promise<any[]>;
-  updateOrderStatus: (status:string,orderId:string) => void;
-  
+  updateOrderStatus: (status: string, orderId: string) => void;
+  addRating: (form: {
+    availabilityId: string;
+    rating: number;
+    comment: string;
+  }) => void;
 }
 
 // Zustand store creation
@@ -109,22 +114,34 @@ const useListingStore = create<ListingStore>((set, get) => ({
       return [];
     }
   },
-  updateOrderStatus: async (status,orderId) => {
+  updateOrderStatus: async (status, orderId) => {
     try {
       const data = {
-        status
-      }
-      const response = await axiosInstance.post(`/v2/listing/get/order-status/${orderId}`,data);
+        status,
+      };
+      const response = await axiosInstance.post(
+        `/v2/listing/get/order-status/${orderId}`,
+        data
+      );
       console.log(response);
       toast.success(response.data.msg, { duration: 3000 });
-      
     } catch (error: any) {
       toast.error(error.response.data.msg, { duration: 3000 });
       console.error(error);
       return [];
     }
   },
-
+  addRating: async (form) => {
+    try {
+      const response = await axiosInstance.post("/v2/listing/rating", form);
+      console.log(response);
+      toast.success(response.data.msg, { duration: 3000 });
+    } catch (error: any) {
+      toast.error(error.response.data.msg, { duration: 3000 });
+      console.error(error);
+      return [];
+    }
+  },
 }));
 
 export default useListingStore;

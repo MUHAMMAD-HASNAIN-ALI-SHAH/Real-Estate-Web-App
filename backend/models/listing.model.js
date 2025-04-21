@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Availability = require("./availability.listing.model");
 
 const listingSchema = new mongoose.Schema(
   {
@@ -68,6 +69,32 @@ const listingSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    rattings: [
+      {
+        availabilityId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Availability",
+          required: true,
+        },
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        username:{
+          type: String,
+          required: true,
+        },
+        rating: {
+          type: Number,
+          required: true,
+        },
+        comment: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

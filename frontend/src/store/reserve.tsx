@@ -15,6 +15,7 @@ interface Reservations {
   startDate: Date | null;
   endDate: Date | null;
   status: string | null;
+  rated:boolean;
 }
 [];
 

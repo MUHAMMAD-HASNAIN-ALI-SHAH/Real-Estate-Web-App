@@ -27,7 +27,7 @@ export default function Navbar() {
         <Signin onClose={signinHandler.close} />
       </Modal>
 
-      <div className="navbar bg-white border-b shadow-md sticky top-0 z-50 px-10">
+      <div className="navbar bg-white border-b shadow-md px-3 md:px-5 lg:px-10">
         <div className="navbar-start">
           <div
             className="flex flex-row items-center justify-center gap-2 cursor-pointer"
@@ -39,7 +39,7 @@ export default function Navbar() {
         </div>
         <div className="navbar-center hidden lg:flex"></div>
         <div className="navbar-end">
-          <h4 className="font-semibold pr-5 hover:cursor-pointer" onClick={()=> navigate("/")}>
+          <h4 className="hidden md:block font-semibold pr-5 hover:cursor-pointer" onClick={()=> navigate("/")}>
             Airbnb Your Home
           </h4>
           <div className="dropdown dropdown-end">

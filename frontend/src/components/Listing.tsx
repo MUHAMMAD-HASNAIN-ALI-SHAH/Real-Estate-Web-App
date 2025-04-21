@@ -13,6 +13,8 @@ const Listing = () => {
   const [daysDifference, setDaysDifference] = useState<number | null>(null);
   const { id } = useParams();
 
+  console.log(listing);
+
   const { checkAvailability, available, reserve } = useReserveListingStore();
 
   const clearAvailable = () => {
@@ -169,20 +171,40 @@ const Listing = () => {
 
                 <div className="border border-gray-300 rounded-lg py-3 px-5 mt-4">
                   <p className="text-lg py-2">
-                    <i className="ri-star-s-fill"></i> 4.98 -{" "}
-                    <span className="underline">199 reviews</span>
+                    <i className="ri-star-s-fill"></i>{" "}
+                    {listing.rattings.length > 0
+                      ? (
+                          listing.rattings.reduce(
+                            (acc: number, rating: any) => acc + rating.rating,
+                            0
+                          ) / listing.rattings.length
+                        ).toFixed(2)
+                      : "0.00"}{" "}
+                    -{" "}
+                    <span className="underline">
+                      {listing.rattings.length} reviews
+                    </span>
                   </p>
 
-                  <div className="border border-gray-300 rounded-lg py-3 px-5">
-                    <div className="flex justify-between items-center">
-                      <h1 className="front-semobold text-xl font-semibold">
-                        Hasnain Ali
-                      </h1>
-                      <h1>April 23, 2024</h1>
-                    </div>
-                    <h1 className="text-gray-500">
-                      Ths is an amazing place to live by
-                    </h1>
+                  <div className="flex flex-col gap-3">
+                    {listing.rattings.length > 0 ? (
+                      listing.rattings.map((rating: any, index: number) => (
+                        <div
+                          key={index}
+                          className="border border-gray-300 rounded-lg py-3 px-5"
+                        >
+                          <div className="flex justify-between items-center">
+                            <h1 className="front-semobold text-xl font-semibold">
+                              {rating.username}
+                            </h1>
+                            <h1>⭐{rating.rating}</h1>
+                          </div>
+                          <h1 className="text-gray-500">{rating.comment}</h1>
+                        </div>
+                      ))
+                    ) : (
+                      <p>Sorry no rating found yet</p>
+                    )}
                   </div>
                 </div>
               </div>

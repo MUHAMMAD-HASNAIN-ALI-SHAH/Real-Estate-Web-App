@@ -1,4 +1,3 @@
-const Rating = require("../models/ratings.model");
 const cloudinary = require("../config/cloudinary");
 const Listing = require("../models/listing.model");
 const Availability = require("../models/availability.listing.model");
@@ -267,33 +266,49 @@ const getListingOnCategory = async (req, res) => {
 const addRating = async (req, res) => {
   try {
     const user = req.user;
-    const { listingId } = req.params;
-    const { rating, message } = req.body;
+    const { rating, comment, availabilityId } = req.body;
 
-    const listing = await Listing.findById(listingId);
-    if (!listing) return res.status(404).json({ msg: "Listing not found" });
-
-    const alreadyRated = await Rating.findOne({ userId: user._id, listingId });
-
-    if (alreadyRated) {
-      alreadyRated.rating = rating;
-      alreadyRated.message = message;
-      await alreadyRated.save();
-      return res.status(200).json({ msg: "Rating updated successfully" });
+    const availability = await Availability.findById(availabilityId);
+    if (!availability) {
+      return res.status(404).json({ msg: "Availability not found" });
     }
 
-    const newRating = new Rating({
-      rating,
-      message,
-      userId: user._id,
-      listingId,
-    });
+    if (!availability.userId.equals(user._id)) {
+      return res.status(403).json({ msg: "Unauthorized" });
+    }
 
-    await newRating.save();
+    const listing = await Listing.findById(availability.listingId);
+    if (!listing) {
+      return res.status(404).json({ msg: "Listing not found" });
+    }
+
+    if (availability.rated) {
+      return res.status(400).json({ msg: "Already rated" });
+    }
+
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ msg: "Rating must be between 1 and 5" });
+    }
+
+    const newRating = {
+      availabilityId,
+      rating,
+      comment,
+      userId:user._id,
+      username:user.username
+    };
+
+    listing.rattings.push(newRating);
+
+    availability.rated = true;
+
+    await listing.save();
+    await availability.save();
 
     res.status(201).json({ msg: "Rating added successfully" });
   } catch (err) {
     res.status(500).json({ msg: err.message });
+    console.log(err.message)
   }
 };
 

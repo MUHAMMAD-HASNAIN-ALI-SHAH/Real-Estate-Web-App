@@ -21,7 +21,7 @@ router.route("/:id").delete(protectedRoute, deleteListing);
 router.route("/").get(protectedRoute, getMyListings);
 router.route("/:id").get(getSingleListing);
 router.route("/category/:category").get(getListingOnCategory);
-router.route("/rating/:listingId").post(protectedRoute, addRating);
+router.route("/rating").post(protectedRoute, addRating);
 router.route("/get/getAllListings").get(getAllListings);
 router.route("/get/new-orders").get(protectedRoute, getNewOrder);
 router.route("/get/order-status/:orderId").post(protectedRoute, acceptRejectOrder);

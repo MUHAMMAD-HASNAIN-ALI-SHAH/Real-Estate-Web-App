@@ -25,6 +25,10 @@ const availabilitySchema = new mongoose.Schema(
       enum: ["pending", "reserved", "rejected", "under review"],
       default: "pending",
     },
+    rated:{
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

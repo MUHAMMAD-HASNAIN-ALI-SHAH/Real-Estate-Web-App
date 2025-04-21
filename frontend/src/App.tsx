@@ -22,7 +22,8 @@ function App() {
   }, []);
 
   return (
-    <div className="scroll-x-hidden bg-gray-100">
+    <div className="bg-gray-100 h-100">
+      <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -56,6 +57,7 @@ function App() {
         />
       </Routes>
       <Footer />
+      </>
     </div>
   );
 }
