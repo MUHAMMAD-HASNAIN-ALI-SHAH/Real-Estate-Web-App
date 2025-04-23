@@ -67,6 +67,7 @@ real-estate-website/
 ## How to run this project
 
 ### First start backend server
+```bash
 -- 1. create a .env file in backend with this fields
 --    PORT=3000
 --    JWT_SECRET=
@@ -78,9 +79,12 @@ real-estate-website/
 -- 2. cd backend
 -- 3. npm install
 -- 3. npx nodemon index.js
+```
 
 ### Second start frontend server
+
+```bash
 -- 1. cd frontend
 -- 2. npm install
 -- 3. npm run dev
-
+```
