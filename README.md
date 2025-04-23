@@ -60,7 +60,7 @@ real-estate-website/
 │   └── config/
 ├── README.md
 └── .gitignore
-
+```bash
 
 ## How to run this project
 
