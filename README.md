@@ -44,6 +44,8 @@ This is a full-stack Real Estate web application that allows users to sign up, c
 
 ## 📦 Project Structure
 
+## 📦 Project Structure
+
 ```bash
 real-estate-website/
 ├── client/            # React Frontend
@@ -60,7 +62,7 @@ real-estate-website/
 │   └── config/
 ├── README.md
 └── .gitignore
-```bash
+```
 
 ## How to run this project
 
