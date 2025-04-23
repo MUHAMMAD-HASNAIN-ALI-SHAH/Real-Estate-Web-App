@@ -294,8 +294,8 @@ const addRating = async (req, res) => {
       availabilityId,
       rating,
       comment,
-      userId:user._id,
-      username:user.username
+      userId: user._id,
+      username: user.username,
     };
 
     listing.rattings.push(newRating);
@@ -308,7 +308,42 @@ const addRating = async (req, res) => {
     res.status(201).json({ msg: "Rating added successfully" });
   } catch (err) {
     res.status(500).json({ msg: err.message });
-    console.log(err.message)
+    console.log(err.message);
+  }
+};
+
+// GET RATING RATIO
+const getRattingRatio = async (req, res) => {
+  try {
+    const user = req.user;
+
+    // Get all listings created by this user
+    const listings = await Listing.find({ userId: user._id });
+
+    // Check if any listings exist
+    if (!listings || listings.length === 0) {
+      return res.status(404).json({ msg: "No listings found" });
+    }
+
+    // Flatten all ratings from all listings
+    const allRatings = listings.flatMap((listing) => listing.rattings);
+
+    const totalRatings = allRatings.length;
+
+    if (totalRatings === 0) {
+      return res.status(200).json({ rattingRatio: 0 });
+    }
+
+    // Calculate total score
+    const totalScore = allRatings.reduce((sum, item) => sum + item.rating, 0);
+
+    // Calculate average
+    const rattingRatio = (totalScore / totalRatings).toFixed(2);
+
+    return res.status(200).json({ rattingRatio });
+  } catch (err) {
+    console.error("Error in getRattingRatio:", err.message);
+    return res.status(500).json({ msg: "Server Error" });
   }
 };
 
@@ -399,4 +434,5 @@ module.exports = {
   getAllListings,
   acceptRejectOrder,
   getNewOrder,
+  getRattingRatio,
 };

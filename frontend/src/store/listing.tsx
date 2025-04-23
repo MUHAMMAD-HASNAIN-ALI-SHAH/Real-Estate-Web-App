@@ -38,6 +38,7 @@ interface ListingStore {
     rating: number;
     comment: string;
   }) => void;
+  rattingRatio: () => Promise<number>;
 }
 
 // Zustand store creation
@@ -138,6 +139,17 @@ const useListingStore = create<ListingStore>((set, get) => ({
       toast.success(response.data.msg, { duration: 3000 });
     } catch (error: any) {
       toast.error(error.response.data.msg, { duration: 3000 });
+      console.error(error);
+      return [];
+    }
+  },
+  rattingRatio: async () => {
+    try {
+      const response = await axiosInstance.post("/v2/listing/get-total-seller-rating");
+      return response.data.rattingRatio || 0.00;
+      console.log(response);
+    } catch (error: any) {
+      toast.error(error?.response.data.msg, { duration: 3000 });
       console.error(error);
       return [];
     }

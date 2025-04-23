@@ -11,6 +11,7 @@ const {
   getAllListings,
   getNewOrder,
   acceptRejectOrder,
+  getRattingRatio,
 } = require("../controllers/listing.controller");
 
 const router = express.Router();
@@ -25,5 +26,6 @@ router.route("/rating").post(protectedRoute, addRating);
 router.route("/get/getAllListings").get(getAllListings);
 router.route("/get/new-orders").get(protectedRoute, getNewOrder);
 router.route("/get/order-status/:orderId").post(protectedRoute, acceptRejectOrder);
+router.route("/get-total-seller-rating").post(protectedRoute, getRattingRatio);
 
 module.exports = router;
