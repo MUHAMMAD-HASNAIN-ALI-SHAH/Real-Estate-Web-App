@@ -68,13 +68,13 @@ real-estate-website/
 
 ### First start backend server
 
--- 1. create a .env file in backend with this fields
---    PORT=3000
---    JWT_SECRET=
---    CLOUDINARY_CLOUD_NAME=
---    CLOUDINARY_API_KEY=
---    CLOUDINARY_API_SECRET=
---    MONGO_URI=
+- 1. create a .env file in backend with this fields
+-    PORT=3000
+-    JWT_SECRET=
+-    CLOUDINARY_CLOUD_NAME=
+-    CLOUDINARY_API_KEY=
+-    CLOUDINARY_API_SECRET=
+-    MONGO_URI=
 
 ```bash
 cd backend
