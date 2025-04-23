@@ -68,7 +68,7 @@ real-estate-website/
 
 ### First start backend server
 
-#### create a .env file in backend with this fields
+#### Create a .env file in backend with this fields
 -    PORT=3000
 -    JWT_SECRET=
 -    CLOUDINARY_CLOUD_NAME=
