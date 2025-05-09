@@ -25,7 +25,7 @@ app.use("/api/v2/listing", listingRoute);
 app.use("/api/v3/reserve", reserveListingRoute);
 app.use("/api/v1/auth", userRoute);
 
-PORT = process.env.port;
+PORT = process.env.PORT;
 
 connectDB().then(() => {
   app.listen(PORT, () => {
