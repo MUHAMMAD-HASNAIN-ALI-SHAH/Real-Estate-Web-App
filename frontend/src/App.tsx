@@ -8,7 +8,7 @@ import useAuthStore from "./store/auth";
 import { useEffect } from "react";
 import Profile from "./pages/Profile";
 import EditListing from "./pages/EditListing";
-import Listing from "./components/Listing";
+import Listing from "./pages/Listing";
 import GetMyReservations from "./pages/GetMyReservations";
 import MyOrders from "./pages/MyOrders";
 

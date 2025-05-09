@@ -34,7 +34,7 @@ export default function Navbar() {
             onClick={() => navigate("/")}
           >
             <FaCompass className="text-3xl text-red-500" />
-            <span className="text-2xl text-red-500">airbnb</span>
+            <span className="text-2xl text-red-500 select-none">real estate</span>
           </div>
         </div>
         <div className="navbar-center hidden lg:flex"></div>

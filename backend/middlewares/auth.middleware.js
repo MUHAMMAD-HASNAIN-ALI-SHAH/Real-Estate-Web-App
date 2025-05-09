@@ -8,7 +8,7 @@ const protectedRoute = async (req, res, next) => {
 
     // Check if the token exists
     if (!token) {
-      return res.status(401).json({ msg: "No token provided" });
+      return res.status(401).json({ msg: "Please signin first" });
     }
 
     // Verify the token

@@ -13,8 +13,6 @@ const Listing = () => {
   const [daysDifference, setDaysDifference] = useState<number | null>(null);
   const { id } = useParams();
 
-  console.log(listing);
-
   const { checkAvailability, available, reserve } = useReserveListingStore();
 
   const clearAvailable = () => {
@@ -125,8 +123,16 @@ const Listing = () => {
                   {listing.bathrooms} bath
                 </p>
                 <p className="text-lg">
-                  <i className="ri-star-s-fill"></i> 4.98 -{" "}
-                  <span className="underline">199 reviews</span>
+                ⭐ {listing.rattings.length > 0
+                      ? (
+                          listing.rattings.reduce(
+                            (acc: number, rating: any) => acc + rating.rating,
+                            0
+                          ) / listing.rattings.length
+                        ).toFixed(2)
+                      : "0.00"}{" "}
+                    -{" "}
+                  <span className="underline">{listing.rattings.length} reviews</span>
                 </p>
                 <div className="border border-gray-300 rounded-lg py-3 px-5 mt-10">
                   <h1 className="front-semobold text-xl font-semibold">

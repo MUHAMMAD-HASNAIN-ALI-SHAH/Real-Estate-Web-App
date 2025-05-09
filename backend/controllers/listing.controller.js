@@ -360,10 +360,6 @@ const acceptRejectOrder = async (req, res) => {
     const order = await Availability.findById(orderId);
     if (!order) return res.status(404).json({ msg: "Order not found" });
 
-    if (!order.userId.equals(user._id)) {
-      return res.status(403).json({ msg: "Unauthorized" });
-    }
-
     if (status !== "reserved" && status !== "rejected") {
       return res.status(400).json({ msg: "Invalid status" });
     }
